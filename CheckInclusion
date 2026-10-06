@@ -1,0 +1,30 @@
+class Solution {
+    public boolean checkInclusion(String signature, String signal) {
+        if (signature.length() > signal.length()) return false;
+    
+    int[] sigMap = new int[26];
+    int[] windowMap = new int[26];
+    int windowSize = signature.length();
+    
+    // 1. Build the target map and the first window map
+    for (int i = 0; i < windowSize; i++) {
+        sigMap[signature.charAt(i) - 'a']++;
+        windowMap[signal.charAt(i) - 'a']++;
+    }
+    
+    // 2. Slide the window across the rest of the signal
+    for (int i = windowSize; i < signal.length(); i++) {
+        // Compare the arrays (O(1) because size is always exactly 26)
+        if (Arrays.equals(sigMap, windowMap)) return true;
+        
+        // Add the new character on the right
+        windowMap[signal.charAt(i) - 'a']++;
+        
+        // Subtract the old character falling out of the window on the left
+        windowMap[signal.charAt(i - windowSize) - 'a']--;
+    }
+    
+    // Check the very last window after the loop finishes
+    return Arrays.equals(sigMap, windowMap);
+}
+    }
