@@ -1,0 +1,27 @@
+class Solution {
+    public int getMinimumDifference(TreeNode root) {
+    List<Integer> values = new ArrayList<>();
+    
+    // 1. Convert the custom Tree into a standard sorted List
+    inorderTraversal(root, values);
+    
+    int minDiff = Integer.MAX_VALUE;
+    
+    // 2. Loop through the built-in List to find the answer
+    for (int i = 1; i < values.size(); i++) {
+        int diff = values.get(i) - values.get(i - 1);
+        if (diff < minDiff) {
+            minDiff = diff;
+        }
+    }
+    
+    return minDiff;
+}
+
+private void inorderTraversal(TreeNode node, List<Integer> values) {
+    if (node == null) return;
+    inorderTraversal(node.left, values);
+    values.add(node.val);
+    inorderTraversal(node.right, values);
+}
+}
